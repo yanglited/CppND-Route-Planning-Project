@@ -6,3 +6,5 @@ test.cpp
 build/
 bin/
 lib/
+cmake-build-*
+.idea
