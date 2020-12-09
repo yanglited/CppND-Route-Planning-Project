@@ -53,25 +53,26 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     // Create path_found vector
     distance = 0.0f;
     std::vector<RouteModel::Node> path_found;
+    while(true)
+    {
+        path_found.push_back(*current_node);
+//        if(current_node->x == start_node->x && current_node->y == start_node->y)
+        if(current_node == start_node)
+        {
+            break;
+        }
+        else
+        {
+            distance += current_node->distance(*(current_node->parent));
+            current_node = current_node->parent;
+        }
 
-    while (current_node->parent != nullptr)
-    {
-        path_found.push_back(*current_node);
-        distance += current_node->distance(*(current_node->parent));
-        current_node = current_node->parent;
-    }
-    // Before adding the last node (start node),
-    // double check to see if it is indeed the start node:
-    if (current_node->x == start_node->x && current_node->y == start_node->y) {
-        path_found.push_back(*current_node);
-    }
-    else
-    {
-        std::cerr << "Path finding error!\n";
     }
 
     std::reverse(path_found.begin(), path_found.end());
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
+
+    std::cout << "Size of the path_found is " << path_found.size() << "\n";
     return path_found;
 
 }
@@ -88,5 +89,29 @@ void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = nullptr;
 
     // TODO: Implement your solution here.
+    current_node = start_node;
+
+    int stepCount = 0;
+    while(true)
+    {
+        stepCount++;
+        AddNeighbors(current_node);
+        current_node = NextNode();
+        if(current_node->x == end_node->x && current_node->y == end_node->y)
+        {
+            break;
+        }
+        double deltaDistance = std::sqrt(std::pow(current_node->x - end_node->x, 2) + std::pow(current_node->y - end_node->y, 2));
+        std::cout << " Step: " << stepCount << " Delta distance: " << deltaDistance << std::endl;
+        if(stepCount > 1000)
+        {
+            break;
+        }
+
+    }
+
+    std::cout << "Path finding finished.\n";
+
+    m_Model.path = ConstructFinalPath(current_node);
 
 }
