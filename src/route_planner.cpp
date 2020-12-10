@@ -79,7 +79,8 @@ void RoutePlanner::AStarSearch() {
     // Set current node to the start node and mark it as visited:
     current_node = start_node;
     current_node->visited = true;
-    // Note: I do think though marking the start node should be done in the constructors,
+    // Note: I do think though marking the start node being visited 
+    // should be done in the constructor of the route planner,
     // and/or a unit test should cover this when it is not set.
 
     int stepCount = 0;
