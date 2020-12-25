@@ -29,6 +29,15 @@ git clone git@github.com:udacity/CppND-Route-Planning-Project.git --recurse-subm
 * IO2D
   * Installation instructions for all operating systems can be found [here](https://github.com/cpp-io2d/P0267_RefImpl/blob/master/BUILDING.md)
   * This library must be built in a place where CMake `find_package` will be able to find it
+  ```bash
+  git clone --recurse-submodules https://github.com/cpp-io2d/P0267_RefImpl
+  cd P0267_RefImpl
+  mkdir Debug
+  cd Debug
+  cmake --config Debug "-DCMAKE_BUILD_TYPE=Debug" ..
+  cmake --build .
+  sudo make install
+  ```
 
 ## Compiling and Running
 
